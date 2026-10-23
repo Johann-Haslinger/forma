@@ -67,7 +67,7 @@ VELVET STATIC verwendet nun eine tiefere, engere Saitenmelodie (Spurtonlage −2
 1. Kopfhörer verwenden. Hook, Verse oder eine eigene Startsekunde wählen.
 2. „Stimme aufnehmen“ klicken, Mikrofon im Browser freigeben und den Vierer-Vorzähler abwarten. Kein Mikrofon-Monitoring: Es wird nur der Beat ausgegeben und die Stimme separat trocken aufgezeichnet.
 3. Stoppen und „Beat + Stimme anhören“ klicken. Dark Lead, Ghost Layer oder Clean Guide wählen. Der Signalweg enthält Hoch-/Tiefpass, Kompression, sanfte Sättigung, Echo und dunklen Hall. Die Effekte verändern nicht das Original. Automatische Tonhöhenkorrektur ist nicht enthalten.
-4. Neue Takes schalten frühere Takes im Mix zunächst aus. Mit den Häkchen mehrere Takes aktivieren. Pro Take stehen Lautstärke, Vocal-Preset und ±250 ms Timing-Korrektur bereit. Effektänderungen wirken beim nächsten Abspielen.
+4. Neue Takes schalten frühere Takes im Mix zunächst aus. Mit den Häkchen mehrere Takes aktivieren. Pro Take stehen Lautstärke, Vocal-Preset und ±250 ms Timing-Korrektur bereit. Vocal-Effekte, Lautstärke und Original/Bearbeitet lassen sich auch während der Wiedergabe direkt verändern.
 5. Die Originalaufnahme über das Downloadsymbol sichern. „Beat + aktivierte Stimmen als WAV“ rendert den gesamten Beat mit den ausgewählten Takes und Effekten in eine Stereo-WAV. Ein zusätzlicher Hallausklang wird berücksichtigt.
 
 Mikrofonzugriff wird ausschließlich nach Klick angefragt und nach Stoppen oder Verlassen beendet. Aufnahmen werden nicht hochgeladen. Browser verweigert Mikrofonzugriff: Berechtigung prüfen und die Seite über localhost oder HTTPS öffnen. Aufnahme und tatsächliche Mikrofonlatenz konnten hier mangels verfügbarem Browser/Mikrofon nicht überprüft werden. Ein konstanter Versatz kann pro Take korrigiert werden.
@@ -76,3 +76,26 @@ Der eigene englische Text LOW LIGHT steht neben der Aufnahme und in `public/demo
 
 Automatisierte Prüfung: 21 Tests für Projektlogik, neue dunkle Fassung, Audio-Signalweg, Vocal-Zeitpositionen, Wellenform und Stereo-WAV-Kodierung. Der Produktionsbuild wird geprüft. Die Tests ersetzen keinen echten Browser-/Mikrofon-/Hörtest.
 # forma
+
+## Rap / Pocket und stärkere Vocal-Bearbeitung
+
+„SEITENSTRASSE“ ist die neue eigene Rap-Komposition bei 96 BPM: klare Snare auf Schlag 2/4, lockere Hats, eine eigenständige kurze Bassfigur und wenige gedämpfte Moll-Keys. Die Street-Soundbank enthält fünf neue WAVs (Block kick, Dry snap, Pocket hat, Rubber bass, Muted keys). Erzeugen: `python3 scripts/make-street.py`. Demo-Clips: `public/demo/seitenstrasse.json`.
+
+Die vollständige WAV-Fassung dauert 83 Sekunden mit vier Takten Intro, acht Hook, acht Verse, vier Break, acht Finale plus Ausklang. Erzeugen: `python3 scripts/render-nocturne.py street`. Die bisherige Nocturne-Fassung bleibt über die Auswahl verfügbar. Beide neuen WAVs sind eigene Kompositionen und verwenden eigene erzeugte Samples.
+
+Die Vocal-Booth startet jetzt mit SEITENSTRASSE und Rap Front. Das Instrumental kann dort unabhängig vom Clip-Editor ausgewählt werden. Einsprungpunkte, Text-Zeitangaben und Vorzähler passen zum jeweiligen Beat: bei SEITENSTRASSE 0:10/0:30/0:50/1:00 für Hook/Verse/Break/Finale. Bei eigenen Dateien lässt sich das Vorzähltempo separat einstellen; es verändert nicht das Tempo der Audiodatei.
+
+Neue Vocal-Presets: Rap Front (direkte Präsenz, kurzer Slap), Grit (deutliche Sättigung) und Radio (enge Telefonbandbreite). Druck/Sättigung steuert Kompression und Verzerrung, Dopplung mischt zwei seitlich verteilte Kurzverzögerungen hinzu, Wärme verändert einen tiefen Shelf-Filter. Original/Bearbeitet bietet einen echten Effekt-Bypass bei Wiedergabe und Export. Automatische Tonhöhenkorrektur ist weiterhin nicht enthalten.
+
+Alte Takes bleiben in IndexedDB erhalten. Takes speichern jetzt auch den zugehörigen Beat-Namen; beim Instrumentalwechsel werden sie zunächst im Mix deaktiviert und können gezielt wieder aktiviert werden. Frühere Takes ohne Beat-Metadaten werden als zur ursprünglichen VELVET-STATIC-Fassung gehörend angezeigt.
+
+Verifikation: 24 Tests einschließlich Rap-Arrangement, Samplebank, WAV-Länge, Dynamik und tatsächlicher Parameteränderung im Vocal-Signalgraph. Produktionsbuild geprüft. Echte Mikrofon-, Browser- und Hörprüfung sind in dieser Umgebung weiterhin nicht verfügbar.
+
+
+## Vocal-Effekte während der Wiedergabe
+
+Presets (auch je Take), Effekt-Anteil, Druck/Sättigung, Dopplung, Wärme, Stimmenlautstärke, Beat-Lautstärke und Original/Bearbeitet sind beim Anhören bedienbar. Änderungen aktualisieren die vorhandenen Audio-Knoten; Beat, Take und Zeitposition werden nicht neu gestartet. Audio-Parameter werden kurz geglättet, Original und Effektpfad überblendet. Zwei parallele Sättigungsstufen erlauben das Ändern der Verzerrung ohne Umbau der Wiedergabe. Der Hall wird dabei nicht erneut erzeugt.
+
+Aufnahme, Instrumentalwechsel, Take-Auswahl und Timing-Korrektur behalten ihre bisherigen Bediengrenzen. Der Export verwendet dieselbe Signalverarbeitung mit den zuletzt gewählten Einstellungen; Live-Reglerbewegungen werden nicht als Automation aufgezeichnet. Originaldateien bleiben unverändert.
+
+Verifikation: 25 Tests inklusive wiederholter Live-Updates ohne neue Audio-Knoten oder erneute Quellenstarts, geglätteter Parameter, Original/Effekt-Umschaltung und sauberem Beenden. Produktionsbuild erfolgreich; eine echte Browser-/Hörprüfung bleibt hier nicht verfügbar.
